@@ -68,8 +68,8 @@ func chooseDB(envName string) (*gorm.DB, error) {
 	dsn := os.Getenv(envName)
 
 	switch {
-	case strings.HasPrefix(dsn, "postgres://"):
-		// Use PostgreSQL
+	case strings.HasPrefix(dsn, "postgres://"), strings.HasPrefix(dsn, "postgresql://"):
+		// Use PostgreSQL（postgresql:// 为 PostgreSQL 官方标准前缀，Render 等平台使用该前缀）
 		return openPostgreSQL(dsn)
 	case dsn != "":
 		// Use MySQL

@@ -14,7 +14,9 @@ RUN DISABLE_ESLINT_PLUGIN='true' REACT_APP_VERSION=$(cat ./VERSION) npm run buil
     DISABLE_ESLINT_PLUGIN='true' REACT_APP_VERSION=$(cat ./VERSION) npm run build --prefix /web/air & \
     wait
 
-FROM golang:alpine AS builder2
+# 固定 Go 版本：1.26.10 包含全部已披露标准库安全补丁（CVE 修复），
+# 同时避免 golang:alpine 滚动标签导致的构建不可复现
+FROM golang:1.26.10-alpine AS builder2
 
 RUN apk add --no-cache \
     gcc \
